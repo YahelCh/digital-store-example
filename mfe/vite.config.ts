@@ -4,18 +4,22 @@ import federation from '@originjs/vite-plugin-federation'
 
 export default defineConfig({
   plugins: [
-    react(),
     federation({
       name: 'mfe',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './MfeApp': './src/App.tsx'
+      },
       remotes: {
-        shell: {
-          external: 'http://localhost:5173/assets/remoteEntry.js',
-          from: 'vite'
-        }
+        shell: 'http://localhost:4176/assets/remoteEntry.js'
       },
       shared: ['react', 'react-dom', 'zustand']
-    })
+    }),
+    react()
   ],
+  build: {
+    target: 'es2022'
+  },
   server: {
     port: 4173
   }

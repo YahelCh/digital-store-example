@@ -1,8 +1,8 @@
 import { useUserStore } from 'shell/UserStore'
 
 function App() {
-  const user = useUserStore((state) => state.user)
-  const setUser = useUserStore((state) => state.setUser)
+  const user = useUserStore((state: any) => state.user)
+  const setUser = useUserStore((state: any) => state.setUser)
 
   return (
     <main style={{ fontFamily: 'system-ui, sans-serif', padding: 24 }}>

@@ -19,26 +19,38 @@ npm install
 
 ## Run locally
 
-Start the shell first, then the MFE:
+**Important:** Module federation only works in production builds with this plugin version. Development servers don't generate `remoteEntry.js`.
+
+Build both projects first:
 
 ```bash
 cd shell
-npm run dev
+npm run build
+
+cd ../mfe
+npm run build
 ```
+
+Then serve both:
 
 ```bash
-cd mfe
-npm run dev
+cd shell
+npm run preview
+
+cd ../mfe
+npm run preview
 ```
 
-- Shell listens on `http://localhost:5173`
-- MFE listens on `http://localhost:4173`
+- Shell serves on `http://localhost:4176` (or next available port)
+- MFE serves on `http://localhost:4175` (or next available port)
 
 ## Behavior
 
 - `shell` defines and exposes `./src/store/userStore.ts`
 - `mfe` imports `shell/UserStore` and renders the same shared Zustand user state
+- `shell` also renders the `mfe` component using lazy loading
 
 ## Notes
 
 The chosen module federation setup shares `react`, `react-dom`, and `zustand` between both apps.
+Ports may vary if other services are running.

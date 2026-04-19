@@ -1,4 +1,7 @@
+import React, { Suspense } from 'react'
 import { useUserStore } from './store/userStore'
+
+const MfeApp = React.lazy(() => import('mfe/MfeApp'))
 
 function App() {
   const user = useUserStore((state) => state.user)
@@ -20,6 +23,13 @@ function App() {
         >
           Toggle User Name
         </button>
+      </section>
+
+      <section style={{ marginTop: 32, padding: 16, border: '1px solid #d1d5db', borderRadius: 12 }}>
+        <h2>Remote MFE rendered in shell</h2>
+        <Suspense fallback={<div>Loading remote MFE...</div>}>
+          <MfeApp />
+        </Suspense>
       </section>
     </main>
   )
