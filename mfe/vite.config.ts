@@ -11,7 +11,7 @@ export default defineConfig({
         './MfeApp': './src/App.tsx'
       },
       remotes: {
-        shell: 'http://localhost:4176/assets/remoteEntry.js'
+        shell: 'http://localhost:4178/assets/remoteEntry.js'
       },
       shared: ['react', 'react-dom', 'zustand']
     }),

@@ -10,9 +10,6 @@ export default defineConfig({
       exposes: {
         './UserStore': './src/store/userStore.ts'
       },
-      remotes: {
-        mfe: 'http://localhost:4175/assets/remoteEntry.js'
-      },
       shared: ['react', 'react-dom', 'zustand']
     }),
     react()

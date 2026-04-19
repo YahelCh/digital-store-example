@@ -1,11 +1,30 @@
-import React, { Suspense } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useUserStore } from './store/userStore'
-
-const MfeApp = React.lazy(() => import('mfe/MfeApp'))
+import { RemoteComponent } from './RemoteComponent'
+import { fetchRemotesFromServer, getRemoteConfig } from './utils/remotes'
+import { RemoteConfig } from './RemoteComponent'
 
 function App() {
-  const user = useUserStore((state) => state.user)
-  const setUser = useUserStore((state) => state.setUser)
+  const user = useUserStore((state: any) => state.user)
+  const setUser = useUserStore((state: any) => state.setUser)
+  const [remotes, setRemotes] = useState<RemoteConfig[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadRemotes = async () => {
+      try {
+        const fetchedRemotes = await fetchRemotesFromServer()
+        setRemotes(fetchedRemotes)
+      } catch (error) {
+        console.error('Failed to fetch remotes:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadRemotes()
+  }, [])
+
+  const mfeConfig = getRemoteConfig(remotes, 'mfe')
 
   return (
     <main style={{ fontFamily: 'system-ui, sans-serif', padding: 24 }}>
@@ -26,10 +45,17 @@ function App() {
       </section>
 
       <section style={{ marginTop: 32, padding: 16, border: '1px solid #d1d5db', borderRadius: 12 }}>
-        <h2>Remote MFE rendered in shell</h2>
-        <Suspense fallback={<div>Loading remote MFE...</div>}>
-          <MfeApp />
-        </Suspense>
+        <h2>Dynamic Remote MFE from Server</h2>
+        {loading && <div>Loading remotes configuration...</div>}
+        {!loading && mfeConfig && (
+          <RemoteComponent
+            {...mfeConfig}
+            fallback={<div>Loading MFE component...</div>}
+            errorFallback={<div style={{ color: 'red' }}>Failed to load MFE</div>}
+            componentProps={{}}
+          />
+        )}
+        {!loading && !mfeConfig && <div style={{ color: 'orange' }}>MFE configuration not found</div>}
       </section>
     </main>
   )
