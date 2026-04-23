@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:module-federation.io)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.npmjs.com)",
+      "WebFetch(domain:medium.com)",
+      "Bash(npm uninstall *)",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\('main',''\\), d.get\\('module',''\\), d.get\\('types',''\\), d.get\\('exports',{}\\)\\)\")",
+      "Bash(node -e \"const p=require\\('./shell/node_modules/@module-federation/vite/package.json'\\); console.log\\(JSON.stringify\\({main:p.main,types:p.types,exports:p.exports},null,2\\)\\)\")"
+    ]
+  }
+}

@@ -1,1 +1,0 @@
-import{importShared as t}from"./__federation_fn_import-lQnlf8La.js";const{create:a}=await t("zustand"),s=a(e=>({user:{id:"1",name:"Alice",email:"alice@example.com"},setUser:r=>e({user:r})}));export{s as useUserStore};

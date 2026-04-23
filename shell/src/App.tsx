@@ -1,8 +1,50 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useUserStore } from './store/userStore'
 import { RemoteComponent } from './RemoteComponent'
 import { fetchRemotesFromServer, getRemoteConfig } from './utils/remotes'
 import { RemoteConfig } from './RemoteComponent'
+
+function MfeSection({
+  config,
+  label,
+  componentProps,
+}: {
+  config: RemoteConfig
+  label: string
+  componentProps?: Record<string, any>
+}) {
+  const [visible, setVisible] = useState(false)
+
+  return (
+    <section style={{ marginTop: 32, padding: 16, border: '1px solid #d1d5db', borderRadius: 12 }}>
+      <h2>{label}</h2>
+      {!visible && (
+        <button
+          onClick={() => setVisible(true)}
+          style={{ padding: '8px 16px', borderRadius: 8, border: 'none', cursor: 'pointer', background: '#3b82f6', color: '#fff' }}
+        >
+          Load MFE
+        </button>
+      )}
+      {visible && (
+        <>
+          <RemoteComponent
+            {...config}
+            fallback={<div>Loading MFE component...</div>}
+            errorFallback={<div style={{ color: 'red' }}>Failed to load MFE</div>}
+            componentProps={componentProps ?? {}}
+          />
+          <button
+            onClick={() => setVisible(false)}
+            style={{ marginTop: 12, padding: '8px 16px', borderRadius: 8, border: 'none', cursor: 'pointer', background: '#e5e7eb', color: '#111' }}
+          >
+            Hide MFE
+          </button>
+        </>
+      )}
+    </section>
+  )
+}
 
 function App() {
   const user = useUserStore((state: any) => state.user)
@@ -25,6 +67,7 @@ function App() {
   }, [])
 
   const mfeConfig = getRemoteConfig(remotes, 'mfe')
+  const mfeWebpackConfig = getRemoteConfig(remotes, 'mfe-webpack')
 
   return (
     <main style={{ fontFamily: 'system-ui, sans-serif', padding: 24 }}>
@@ -44,19 +87,15 @@ function App() {
         </button>
       </section>
 
-      <section style={{ marginTop: 32, padding: 16, border: '1px solid #d1d5db', borderRadius: 12 }}>
-        <h2>Dynamic Remote MFE from Server</h2>
-        {loading && <div>Loading remotes configuration...</div>}
-        {!loading && mfeConfig && (
-          <RemoteComponent
-            {...mfeConfig}
-            fallback={<div>Loading MFE component...</div>}
-            errorFallback={<div style={{ color: 'red' }}>Failed to load MFE</div>}
-            componentProps={{}}
-          />
-        )}
-        {!loading && !mfeConfig && <div style={{ color: 'orange' }}>MFE configuration not found</div>}
-      </section>
+      {loading && <div style={{ marginTop: 32 }}>Loading remotes configuration...</div>}
+
+      {!loading && mfeConfig && (
+        <MfeSection config={mfeConfig} label="Vite MFE" componentProps={{ user, setUser }} />
+      )}
+
+      {!loading && mfeWebpackConfig && (
+        <MfeSection config={mfeWebpackConfig} label="Webpack MFE" />
+      )}
     </main>
   )
 }

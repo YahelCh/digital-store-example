@@ -1,8 +1,18 @@
-import { useUserStore } from 'shell/UserStore'
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
 
-function App() {
-  const user = useUserStore((state: any) => state.user)
-  const setUser = useUserStore((state: any) => state.setUser)
+interface Props {
+  user?: User;
+  setUser?: (user: User) => void;
+}
+
+function App({ user, setUser }: Props) {
+  if (!user || !setUser) {
+    return <div style={{ color: 'orange' }}>MFE: no user data received</div>;
+  }
 
   return (
     <main style={{ fontFamily: 'system-ui, sans-serif', padding: 24 }}>
