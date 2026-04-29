@@ -4,15 +4,7 @@ import { RemoteComponent } from './RemoteComponent'
 import { fetchRemotesFromServer, getRemoteConfig } from './utils/remotes'
 import { RemoteConfig } from './RemoteComponent'
 
-function MfeSection({
-  config,
-  label,
-  componentProps,
-}: {
-  config: RemoteConfig
-  label: string
-  componentProps?: Record<string, any>
-}) {
+function MfeSection({ config, label }: { config: RemoteConfig; label: string }) {
   const [visible, setVisible] = useState(false)
 
   return (
@@ -32,7 +24,7 @@ function MfeSection({
             {...config}
             fallback={<div>Loading MFE component...</div>}
             errorFallback={<div style={{ color: 'red' }}>Failed to load MFE</div>}
-            componentProps={componentProps ?? {}}
+            componentProps={{}}
           />
           <button
             onClick={() => setVisible(false)}
@@ -90,7 +82,7 @@ function App() {
       {loading && <div style={{ marginTop: 32 }}>Loading remotes configuration...</div>}
 
       {!loading && mfeConfig && (
-        <MfeSection config={mfeConfig} label="Vite MFE" componentProps={{ user, setUser }} />
+        <MfeSection config={mfeConfig} label="MFE (Webpack)" />
       )}
 
       {!loading && mfeWebpackConfig && (

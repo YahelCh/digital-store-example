@@ -1,56 +1,91 @@
 # Digital Store Example
 
-This workspace contains two Vite + React 18 projects configured with `@originjs/vite-plugin-federation`:
+Monorepo demonstrating **Module Federation** with React 18 and a shared Zustand store, implemented in two bundler stacks: Webpack 5 and Rspack.
 
-- `shell/` — host application exposing a Zustand user store as a federated module
-- `mfe/` — remote application consuming the shared user store from `shell`
+## Projects
+
+### Webpack 5
+
+| App | Port | Role |
+|-----|------|------|
+| `shell/` | 5001 | Host — exposes `UserStore`, loads MFEs dynamically |
+| `mfe/` | 5002 | Remote — consumes `shell/UserStore`, exposes `./MfeApp` |
+| `mfe-webpack/` | 5003 | Remote — standalone Webpack MFE |
+
+### Rspack
+
+| App | Port | Role |
+|-----|------|------|
+| `shell-rspack/` | 5011 | Host — exposes `UserStore`, loads MFEs dynamically |
+| `mfe-rspack/` | 5012 | Remote — consumes `shellRspack/UserStore`, exposes `./MfeApp` |
+
+## Architecture
+
+- `shell` / `shell-rspack` expose `./UserStore` (Zustand store) as a federated module
+- The MFE declares the shell as a static remote and imports `useUserStore` directly — same store instance at runtime
+- The shell loads remotes **dynamically** via `RemoteComponent`, without declaring them in its bundler config
+- `RemoteComponent` uses the `__webpack_init_sharing__` / `__webpack_share_scopes__` API (compatible with both Webpack and Rspack) to share React and Zustand with every loaded remote
+- MFEs are **lazy-loaded on button click** and can be hidden without unmounting
 
 ## Setup
 
-Install dependencies in each project:
-
 ```bash
-cd shell
-npm install
+# Webpack projects
+cd shell && npm install
+cd ../mfe && npm install
+cd ../mfe-webpack && npm install
 
-cd ../mfe
-npm install
+# Rspack projects
+cd ../shell-rspack && npm install
+cd ../mfe-rspack && npm install
 ```
 
-## Run locally
+## Run — Webpack (dev mode)
 
-**Important:** Module federation only works in production builds with this plugin version. Development servers don't generate `remoteEntry.js`.
-
-Build both projects first:
+Open three terminals:
 
 ```bash
-cd shell
-npm run build
+# Terminal 1
+cd mfe-webpack && npm run dev
 
-cd ../mfe
-npm run build
+# Terminal 2
+cd mfe && npm run dev
+
+# Terminal 3
+cd shell && npm run dev
 ```
 
-Then serve both:
+Open `http://localhost:5001`
+
+## Run — Rspack (dev mode)
+
+Open two terminals:
 
 ```bash
-cd shell
-npm run preview
+# Terminal 1
+cd shell-rspack && npm run dev
 
-cd ../mfe
-npm run preview
+# Terminal 2
+cd mfe-rspack && npm run dev
 ```
 
-- Shell serves on `http://localhost:4176` (or next available port)
-- MFE serves on `http://localhost:4175` (or next available port)
+Open `http://localhost:5011`
 
-## Behavior
+> Start the shell before opening the browser. The MFE dev server must be running before clicking "Load MFE" in the shell.
 
-- `shell` defines and exposes `./src/store/userStore.ts`
-- `mfe` imports `shell/UserStore` and renders the same shared Zustand user state
-- `shell` also renders the `mfe` component using lazy loading
+## Run (production)
 
-## Notes
+```bash
+# Webpack
+cd mfe-webpack && npm run build && npm run preview
+cd mfe         && npm run build && npm run preview
+cd shell       && npm run build && npm run preview
 
-The chosen module federation setup shares `react`, `react-dom`, and `zustand` between both apps.
-Ports may vary if other services are running.
+# Rspack
+cd mfe-rspack   && npm run build && npm run preview
+cd shell-rspack && npm run build && npm run preview
+```
+
+## Shared state
+
+Toggling the user in the shell or in the MFE updates the same Zustand store — changes are reflected in both simultaneously.

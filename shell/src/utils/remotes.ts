@@ -7,9 +7,7 @@ export async function fetchRemotesFromServer(): Promise<RemoteConfig[]> {
       url: 'http://localhost:5002/remoteEntry.js',
       scope: 'mfe',
       module: './MfeApp',
-      label: 'MFE App (Vite)',
-      from: 'vite',
-      format: 'esm',
+      label: 'MFE App (Webpack)',
     },
     {
       id: 'mfe-webpack',
@@ -17,8 +15,6 @@ export async function fetchRemotesFromServer(): Promise<RemoteConfig[]> {
       scope: 'mfeWebpack',
       module: './App',
       label: 'MFE Webpack',
-      from: 'webpack',
-      format: 'var',
     },
   ];
 }

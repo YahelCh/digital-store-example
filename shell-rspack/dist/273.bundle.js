@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdigital_shell_rspack=self.webpackChunkdigital_shell_rspack||[]).push([["273"],{888(e,r,s){s.r(r),s.d(r,{useUserStore:()=>a});var a=(0,s(907).create)(function(e){return{user:{name:"Alice",email:"alice@example.com"},setUser:function(r){return e({user:r})}}})}}]);
+//# sourceMappingURL=273.bundle.js.map

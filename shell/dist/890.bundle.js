@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdigital_shell=self.webpackChunkdigital_shell||[]).push([[890],{890(e,s,l){l.r(s),l.d(s,{useUserStore:()=>a});const a=(0,l(419).create)(e=>({user:{id:"1",name:"Alice",email:"alice@example.com"},setUser:s=>e({user:s})}))}}]);

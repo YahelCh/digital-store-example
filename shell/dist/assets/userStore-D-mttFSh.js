@@ -1,1 +1,0 @@
-import{_ as r}from"./__mfe_internal__shell__loadShare__zustand__loadShare__.js-DxZ0OSte.js";const o=r(e=>({user:{id:"1",name:"Alice",email:"alice@example.com"},setUser:m=>e({user:m})}));export{o as useUserStore};

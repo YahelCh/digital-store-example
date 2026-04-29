@@ -1,1 +1,0 @@
-import{g as _}from"./__mfe_internal__mfe__loadShare__react__loadShare__.js_commonjs-proxy-BBGRmhJW.js";import{_ as e}from"./__mfe_internal__mfe__loadShare__react_mf_2_dom__loadShare__.js-D0NegZj0.js";const m=_(e);export{m as r};

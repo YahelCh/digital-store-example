@@ -1,9 +1,0 @@
-import{r as u}from"./__mfe_internal__mfe__loadShare__react__loadShare__.js_commonjs-proxy-BBGRmhJW.js";import"./__mfe_internal__mfe__loadShare__react__loadShare__.js-CSUxPOU5.js";var a={exports:{}},s={};/**
- * @license React
- * react-jsx-runtime.production.min.js
- *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */var c=u,m=Symbol.for("react.element"),f=Symbol.for("react.fragment"),x=Object.prototype.hasOwnProperty,_=c.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,y={key:!0,ref:!0,__self:!0,__source:!0};function p(r,e,l){var n,t={},i=null,d=null;l!==void 0&&(i=""+l),e.key!==void 0&&(i=""+e.key),e.ref!==void 0&&(d=e.ref);for(n in e)x.call(e,n)&&!y.hasOwnProperty(n)&&(t[n]=e[n]);if(r&&r.defaultProps)for(n in e=r.defaultProps,e)t[n]===void 0&&(t[n]=e[n]);return{$$typeof:m,type:r,key:i,ref:d,props:t,_owner:_.current}}s.Fragment=f;s.jsx=p;s.jsxs=p;a.exports=s;var o=a.exports;function j({user:r,setUser:e}){return!r||!e?o.jsx("div",{style:{color:"orange"},children:"MFE: no user data received"}):o.jsxs("main",{style:{fontFamily:"system-ui, sans-serif",padding:24},children:[o.jsx("h1",{children:"MFE Consumer"}),o.jsxs("section",{style:{border:"1px solid #ccc",borderRadius:12,padding:16,maxWidth:420},children:[o.jsxs("p",{children:[o.jsx("strong",{children:"Consumed user name:"})," ",r.name]}),o.jsxs("p",{children:[o.jsx("strong",{children:"Consumed email:"})," ",r.email]}),o.jsx("button",{onClick:()=>e({...r,name:r.name==="Alice"?"Ori":"Alice"}),style:{padding:"8px 16px",borderRadius:8,border:"none",cursor:"pointer"},children:"Toggle User Name from MFE"})]})]})}const v=Object.freeze(Object.defineProperty({__proto__:null,default:j},Symbol.toStringTag,{value:"Module"}));export{j as A,v as a,o as j};
